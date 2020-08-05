@@ -1,10 +1,10 @@
 import unittest
-from pokespeare.app import pokespeare_app
+from pokespeare.app import flask_app
 
 
 class AppTest(unittest.TestCase):
     def setUp(self):
-        self.app = app.test_client()
+        self.app = flask_app.test_client()
         self.app.testing = True
 
     def tearDown(self):
