@@ -1,6 +1,6 @@
 import unittest
 from pokespeare.exceptions import MalformedJSONResponseError
-from pokespear.model import (
+from pokespeare.model import (
     Pokemon,
     PokemonSchema,
     ShakespeareText,
