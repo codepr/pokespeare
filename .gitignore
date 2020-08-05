@@ -17,24 +17,11 @@ var/
 *.egg
 .env
 .mypy_cache
-baseline.json
-service.json
 
 # Bytecode-compile
 __pycache__
 *.pyc
 *.pyo
 
-# Plugins
-node_modules
-package-lock.json
-
-# Serverless directories
-.serverless
-
 # Other
 .idea
-
-tmp
-
-
