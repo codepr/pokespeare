@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="pokespear",
+    name="pokespeare",
     version="0.0.1",
-    url="http://github.com/codepr/pokespear",
+    url="http://github.com/codepr/pokespeare",
     license="MIT",
     author="Andrea Giacomo Baldan",
     author_email="a.g.baldan@gmail.com",

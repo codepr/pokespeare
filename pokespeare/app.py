@@ -15,13 +15,20 @@ def get_pokemon_description(pokemon_name):
         )
         response.raise_for_status()
         pokemon = schema.load(response.json())
+        shakespeare = requests.post(
+            "https://api.funtranslations.com/translate/shakespeare.json",
+            json={"text": pokemon.description},
+        )
+        shakespeare.raise_for_status()
     except (
         MalformedJSONResponseError,
+        requests.exceptions.HTTPError,
         requests.exceptions.RequestException,
     ) as err:
         abort(404, description=err)
     except:
         abort(404)
+    pokemon.description = shakespeare.translated
     return jsonify(schema.dump(pokemon))
 
 
