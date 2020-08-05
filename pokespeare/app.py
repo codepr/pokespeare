@@ -14,6 +14,7 @@ def get_pokemon_description(pokemon_name):
             f"https://pokeapi.co/api/v2/pokemon-species/{pokemon_name}"
         )
         response.raise_for_status()
+        print(response)
         pokemon = schema.load(response.json())
         shakespeare = requests.post(
             "https://api.funtranslations.com/translate/shakespeare.json",
