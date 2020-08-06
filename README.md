@@ -48,6 +48,11 @@ The host can be set only for `pokespeare.config.ProductionConfig` as for the dev
 $ docker build -t pokespeare . && docker run --rm -e "HOST=0.0.0.0" -p5000:5000 pokespeare
 ```
 
+**Run tests**
+```sh
+$ python setup.py test
+```
+
 **Configuration**
 
 There two configurations currently that can be set via ENV:
