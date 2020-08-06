@@ -16,9 +16,7 @@ what happened.
 
 Dependencies:
 - python >= 3.7
-
-Optionals:
-- sqlite
+- sqlite (optional)
 
 ## Quickstart
 
@@ -41,6 +39,8 @@ $ python start.py
 ```
 
 **Docker build & run**
+
+The host can be set only for `pokespeare.config.ProductionConfig` as for the development one it's standard on 127.0.0.1
 ```sh
 $ docker build -t pokespeare . && docker run --rm -e "HOST=0.0.0.0" -p5000:5000 pokespeare
 ```
@@ -48,26 +48,26 @@ $ docker build -t pokespeare . && docker run --rm -e "HOST=0.0.0.0" -p5000:5000 
 **Configuration**
 
 There two configurations currently that can be set via ENV:
-- pokespeare.config.DevelopmentConfig
-- pokespeare.config.ProductionConfig
+- `pokespeare.config.DevelopmentConfig`
+- `pokespeare.config.ProductionConfig`
 
 Practically every configuration key can be set via ENV variables, currently
 support:
 
 Dev and prod.
 
-- CACHE_NAME
-- CACHE_BACKEND
-- CACHE_EXPIRATION
-- POKEMON_API_URL
-- TRANSLATOR_API_URL
-- TRANSLATOR_API_KEY
-- WSGI_SERVER
+- `CACHE_NAME`
+- `CACHE_BACKEND`
+- `CACHE_EXPIRATION`
+- `POKEMON_API_URL`
+- `TRANSLATOR_API_URL`
+- `TRANSLATOR_API_KEY`
+- `WSGI_SERVER`
 
 Production only
 
-- HOST
-- PORT
+- `HOST`
+- `PORT`
 
 ## Way of working
 
@@ -98,16 +98,16 @@ code to express my opinions on what could have been a better choice to take.
   is more than capable of handling the volume of requests.
   If the traffic volume is expected to grow rapidly in the short-term (unlikely,
   given the hard-cap of the [shakesperean-translator](https://funtranslations.com/api/shakespeare#translate)
-  of 125000 calls/day with the ultra plan) it's trivial to increase nodes and
+  of 12500 calls/day with the ultra plan) it's trivial to increase nodes and
   put a load-balancer in front of the application.
 
 - **Requests:** Again, the most widespread library for HTTP calls, it does one thing
-  and it does it well. Also there's no possibility of make the pokeapi.co/v2 call
-  and the funtranslations.com call concurrently as their sequentials: funtranslations
-  needs the result of the pokeapi.co/v2 call to give a result.
+  and it does it well. Also there's no possibility of make the `pokeappi.co/v2` call
+  and the `funtranslations.com` call concurrently as their sequentials: funtranslations
+  needs the result of the `pokeappi.co/v2` call to give a result.
 
 - **Requests-cache:** A super simple caching layer working out-of-the box paired with
-  requests module to cache requests as also advised by pokeapi.co/v2 documentation.
+  requests module to cache requests as also advised by `pokeappi.co/v2` documentation.
   Supports redis, mongodb, sqlite and also simple memory dict-based cache.
   I have to admit I'm not a huge fan of these under-the-hood monkey-patching mechanism
   or having a global objects like the request one in flask but it's a common pattern in python
@@ -135,7 +135,7 @@ with **aiohttp** or some other async solutions to increase performance by
 several orders of magnitude.
 
 A solution to tackle the problem of the scarce number of calls available toward
-funtranslations.com beside the cache, could be to store results at each new
+`funtranslations.com` beside the cache, could be to store results at each new
 call in a persistent DB avoiding calls each time the cache is flushed.
 
 ## Notes

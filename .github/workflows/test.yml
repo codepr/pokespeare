@@ -1,4 +1,4 @@
-name: pokespear
+name: test
 
 on: [push]
 
