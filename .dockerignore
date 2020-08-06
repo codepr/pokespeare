@@ -1,0 +1,7 @@
+!README.md
+tests/
+.cache/
+.env
+.idea
+*.egg_info/
+setup.cfg

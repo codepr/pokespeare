@@ -94,7 +94,7 @@ know most frameworks and best practices overall.
 
 The task is pretty simple but I tried to implement it with an eye for
 maintenability and extensibility of the code, for this reason the final result
-can seem a bit of an overkill in some parts but I also written some hints on the
+can seem a bit of an overkill in some parts but I also wrote some hints on the
 code to express my opinions on what could have been a better choice to take.
 
 ### Frameworks & libraries
@@ -102,27 +102,27 @@ code to express my opinions on what could have been a better choice to take.
 - **Flask:** battle-tested and the simplest solution for the domain, it's
   lightweight and being the problem essentially a stateless computation, I
   thought there was no need for fancy features extensions like `Flask-Restplus`
-  or speedsters performance frameworks like `fastapi` (automatic swgger
-  documentatins comes handy) or `async/await` based frameworks. Flask is more
+  or speedsters performance frameworks like `fastapi` (automatic swagger
+  documentations comes handy) or `async/await` based frameworks. Flask is more
   than capable of handling the volume of requests. If the traffic volume is
   expected to grow rapidly in the short-term (unlikely, given the hard-cap of
   the
   [shakesperean-translator](https://funtranslations.com/api/shakespeare#translate)
   of 12500 calls/day with the ultra plan) it's trivial to increase nodes and
-  put a load-balancer in front of the application, spreding it into multiple
+  put a load-balancer in front of the application, spreading it into multiple
   processes on a cluster.
 
 - **Requests:** Again, the most widespread library for HTTP calls, it does one thing
-  and it does it well. Also there's no possibility of make the `pokeappi.co/v2` call
-  and the `funtranslations.com` call concurrently as their sequentials: funtranslations
+  and it does it well. Also there's no possibility of making the `pokeappi.co/v2` call
+  and the `funtranslations.com` call concurrently as their sequentials: `funtranslations.com`
   needs the result of the `pokeappi.co/v2` call to give a result.
 
 - **Requests-cache:** A super simple caching layer working out-of-the box paired with
   requests module to cache requests as also advised by `pokeappi.co/v2` documentation.
   Supports redis, mongodb, sqlite and also simple memory dict-based cache.
-  I have to admit I'm not a huge fan of these under-the-hood monkey-patching mechanism
+  I have to admit I'm not a huge fan of these under-the-hood monkey-patching implementations
   or having a global objects like the request one in flask but it's a common pattern in python
-  as long as it's well-tested, given the size of the project it's a good fast solution that
+  as long as it's well-tested, and given the size of the project it's a good, fast solution that
   fulfill all the needs.
   For something more complex I'd probably switch to different solutions or design a caching
   layer from scratch with more control over the logics.
