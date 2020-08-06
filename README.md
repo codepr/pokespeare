@@ -97,10 +97,11 @@ code to express my opinions on what could have been a better choice to take.
 - **Flask:** battle-tested and the simplest solution for the domain, it's
   lightweight and being the problem essentially a stateless computation, I
   thought there was no need for fancy features extensions like `Flask-Restplus`
-  or speedsters performance frameworks like `fastapi` or `async/await` based
-  frameworks. Flask is more than capable of handling the volume of requests. If
-  the traffic volume is expected to grow rapidly in the short-term (unlikely,
-  given the hard-cap of the
+  or speedsters performance frameworks like `fastapi` (automatic swgger
+  documentatins comes handy) or `async/await` based frameworks. Flask is more
+  than capable of handling the volume of requests. If the traffic volume is
+  expected to grow rapidly in the short-term (unlikely, given the hard-cap of
+  the
   [shakesperean-translator](https://funtranslations.com/api/shakespeare#translate)
   of 12500 calls/day with the ultra plan) it's trivial to increase nodes and
   put a load-balancer in front of the application, spreding it into multiple
