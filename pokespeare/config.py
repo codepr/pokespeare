@@ -17,6 +17,7 @@ class Config:
         "TRANSLATOR_API_URL",
         "https://api.funtranslations.com/translate/shakespeare.json",
     )
+    TRANSLATOR_API_KEY = os.getenv("TRANSLATOR_API_KEY")
     WSGI_SERVER = "flask"
 
 

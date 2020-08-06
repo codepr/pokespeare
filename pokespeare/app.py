@@ -63,14 +63,23 @@ def get_pokemon_description(pokemon_name):
     )
     pokemon_url = flask_app.config.get("POKEMON_API_URL")
     translator_url = flask_app.config.get("TRANSLATOR_API_URL")
+    # Optional API key
+    translator_api = flask_app.config.get("TRANSLATOR_API_KEY")
     schema = PokemonSchema()
     sh_schema = ShakespeareTextSchema()
     try:
         response = http.get(os.path.join(pokemon_url, pokemon_name))
         pokemon = schema.load(response.json())
-        shakespereanized = http.post(
-            translator_url, json={"text": pokemon.description},
-        )
+        if translator_api:
+            shakespereanized = http.post(
+                translator_url,
+                json={"text": pokemon.description},
+                headers={"X-Funtranslations-Api-Secret": translator_api},
+            )
+        else:
+            shakespereanized = http.post(
+                translator_url, json={"text": pokemon.description},
+            )
         shakespeare_text = sh_schema.load(shakespereanized.json())
     except (HTTPError, MalformedJSONResponseError) as err:
         abort(404, description=err)
