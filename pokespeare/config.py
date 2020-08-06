@@ -1,3 +1,10 @@
+"""
+pokespeare.config.py
+~~~~~~~~~~~~~~~~~~~~
+
+Simple configuration module. Used to load configuration on wep app.
+"""
+
 import os
 from multiprocessing import cpu_count
 
@@ -8,7 +15,6 @@ def number_of_workers():
 
 
 class Config:
-    DEBUG = os.getenv("DEBUG", "0") == "1"
     CACHE_NAME = os.getenv("CACHE_NAME", "pokespeare_cache")
     CACHE_BACKEND = os.getenv("CACHE_BACKEND", "memory")
     CACHE_EXPIRATION = int(os.getenv("CACHE_EXPIRATION", "3600"))

@@ -1,3 +1,10 @@
+"""
+pokespeare.models.py
+~~~~~~~~~~~~~~~~~~~~
+
+This module contains models definitions and marshalling logics for each of them
+"""
+
 from dataclasses import dataclass
 from .exceptions import MalformedJSONResponseError
 
