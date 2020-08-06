@@ -22,7 +22,7 @@ Optionals:
 
 ## Quickstart
 
-The project is written in python, it's advisable to create a virtual environment
+The project is written in python, it's advisable to create a [virtual environment](https://virtualenv.pypa.io/en/latest/installation.html)
 to test it or use the `Dockerfile` to run it inside a container.
 
 **Install dependencies**
@@ -148,3 +148,21 @@ easy anyway to add redis for example as it's natively supported by the
 I didn't reach 100% test coverage as some parts I assume are already covered by
 the external library they relies on as I don't make any modifications beside
 calling their public methods (ex: pokespeare.http module).
+
+### Rust implementation
+
+I've tested a rough draft in Rust as well, very basic as I think I don't have
+enough experience with the language. Anyway the libraries I explored/adopted
+were [rocket](https://rocket.rs) as webframework with an eye for
+[worp](https://docs.rs/warp/0.2.4/warp/) but being more async oriented I
+ditched it. [serde](https://serde.rs/) for JSON marshalling and
+[reqwest](https://docs.rs/reqwest/0.10.7/reqwest/) to make requests to external
+APIs.
+
+Beside the good old borrow checker, I think the main thing I found myself
+unaccostumed it's the error handling and missing fields, but mainly because of
+habit with exceptions system or plain old return codes C/Go like; but I think
+it become very intuitive pretty fast and very powerful and neat as well.
+
+I really like cargo and the toolchain offered, way better than the python one,
+definetly interesting.
