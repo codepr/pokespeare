@@ -1,9 +1,28 @@
+from typing import Tuple
 from flask import Flask, abort, jsonify
 from .models import PokemonSchema, ShakespeareTextSchema
 from .exceptions import MalformedJSONResponseError, HTTPError, UnexpectedError
-from .http import RequestsHTTPClient
+from .http import HTTPClient, RequestsHTTPClient
 
 flask_app = Flask(__name__)
+
+
+def get_http_client(
+    cache_name: str = "",
+    *,
+    backend: str = "memory",
+    expire_after: int = 3600,
+    allowable_methods: Tuple[str] = ("GET",),
+) -> HTTPClient:
+    """Trivial factory function, could be extended to a dict-based registry
+    with more choices, if a different more performant client is needed, or an HTTP/2
+    client"""
+    return RequestsHTTPClient(
+        cache_name,
+        backend=backend,
+        expire_after=expire_after,
+        allowable_methods=allowable_methods,
+    )
 
 
 @flask_app.errorhandler(404)
@@ -13,7 +32,7 @@ def resource_not_found(err):
 
 @flask_app.route("/pokemon/<string:pokemon_name>", methods=["GET"])
 def get_pokemon_description(pokemon_name):
-    http = RequestsHTTPClient(
+    http = get_http_client(
         "pokespeare_cache",
         backend="memory",
         expire_after=3600,
