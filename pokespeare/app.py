@@ -1,35 +1,41 @@
-import requests
 from flask import Flask, abort, jsonify
 from .models import PokemonSchema, ShakespeareTextSchema
-from .exceptions import MalformedJSONResponseError
+from .exceptions import MalformedJSONResponseError, HTTPError, UnexpectedError
+from .http import RequestsHTTPClient
 
 flask_app = Flask(__name__)
 
 
+@flask_app.errorhandler(404)
+def resource_not_found(err):
+    return jsonify(error=str(err)), 404
+
+
 @flask_app.route("/pokemon/<string:pokemon_name>", methods=["GET"])
 def get_pokemon_description(pokemon_name):
+    http = RequestsHTTPClient(
+        "pokespeare_cache",
+        backend="memory",
+        expire_after=3600,
+        allowable_methods=("GET", "POST"),
+    )
     schema = PokemonSchema()
+    sh_schema = ShakespeareTextSchema()
     try:
-        response = requests.get(
+        response = http.get(
             f"https://pokeapi.co/api/v2/pokemon-species/{pokemon_name}"
         )
-        response.raise_for_status()
-        print(response)
         pokemon = schema.load(response.json())
-        shakespeare = requests.post(
+        shakespereanized = http.post(
             "https://api.funtranslations.com/translate/shakespeare.json",
             json={"text": pokemon.description},
         )
-        shakespeare.raise_for_status()
-    except (
-        MalformedJSONResponseError,
-        requests.exceptions.HTTPError,
-        requests.exceptions.RequestException,
-    ) as err:
+        shakespeare_text = sh_schema.load(shakespereanized.json())
+    except (HTTPError, MalformedJSONResponseError) as err:
         abort(404, description=err)
-    except:
+    except UnexpectedError:
         abort(404)
-    pokemon.description = shakespeare.translated
+    pokemon.description = shakespeare_text.translated
     return jsonify(schema.dump(pokemon))
 
 
