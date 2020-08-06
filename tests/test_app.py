@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 from pokespeare.app import flask_app
 from pokespeare.exceptions import HTTPError
+from pokespeare.config import DevelopmentConfig
 
 # Well formed response from pokeapi.co/v2 GET call
 expected_pokemon_response = {
@@ -89,6 +90,7 @@ class FakeRequests:
 
 class AppTest(unittest.TestCase):
     def setUp(self):
+        flask_app.config.from_object(DevelopmentConfig)
         self.app = flask_app.test_client()
         self.app.testing = True
 

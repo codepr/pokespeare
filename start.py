@@ -1,4 +1,4 @@
-from pokespeare.app import run
+from pokespeare.app import serve
 
 if __name__ == "__main__":
-    run()
+    serve()
