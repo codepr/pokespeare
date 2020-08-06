@@ -8,8 +8,9 @@ def number_of_workers():
 
 
 class Config:
-    CACHE_NAME = "pokespeare_cache"
-    CACHE_BACKEND = "memory"
+    DEBUG = os.getenv("DEBUG", "0") == "1"
+    CACHE_NAME = os.getenv("CACHE_NAME", "pokespeare_cache")
+    CACHE_BACKEND = os.getenv("CACHE_BACKEND", "memory")
     CACHE_EXPIRATION = int(os.getenv("CACHE_EXPIRATION", "3600"))
     POKEMON_API_URL = os.getenv(
         "POKEMON_API_URL", "https://pokeapi.co/api/v2/pokemon-species/"

@@ -6,6 +6,7 @@ APIs definition and server related functions
 """
 
 import os
+import sys
 from typing import Tuple
 from flask import Flask, abort, jsonify
 from gunicorn.app.base import BaseApplication
@@ -14,6 +15,16 @@ from .exceptions import MalformedJSONResponseError, HTTPError, UnexpectedError
 from .http import HTTPClient, RequestsHTTPClient
 
 flask_app = Flask(__name__)
+
+# Just a simple esplicative check for configuration setup
+if not os.getenv("APP_CONFIG"):
+    print(
+        "No configuration set: Please, try "
+        "`export APP_CONFIG=pokespeare.config.ProductionConfig` or "
+        "`export APP_CONFIG=pokespeare.config.DevelopmentConfig`"
+    )
+    sys.exit(0)
+
 flask_app.config.from_object(os.getenv("APP_CONFIG"))
 _http = None
 
@@ -144,5 +155,7 @@ def serve():
             "bind": "%s:%s"
             % (flask_app.config["HOST"], str(flask_app.config["PORT"])),
             "workers": flask_app.config["WORKERS"],
+            "accesslog": "-",
+            "errorlog": "-",
         }
         WSGIApplication(flask_app, options).run()

@@ -45,6 +45,30 @@ $ python start.py
 $ docker build -t pokespeare . && docker run --rm -e "HOST=0.0.0.0" -p5000:5000 pokespeare
 ```
 
+**Configuration**
+
+There two configurations currently that can be set via ENV:
+- pokespeare.config.DevelopmentConfig
+- pokespeare.config.ProductionConfig
+
+Practically every configuration key can be set via ENV variables, currently
+support:
+
+Dev and prod.
+
+- CACHE_NAME
+- CACHE_BACKEND
+- CACHE_EXPIRATION
+- POKEMON_API_URL
+- TRANSLATOR_API_URL
+- TRANSLATOR_API_KEY
+- WSGI_SERVER
+
+Production only
+
+- HOST
+- PORT
+
 ## Way of working
 
 - Exploration of the domain, analysis of the external services documentations
@@ -120,3 +144,7 @@ For the caching layer I've opted for simple in-memory dictionary for
 development and sqlite for a persisted solution just to give the idea, it's
 easy anyway to add redis for example as it's natively supported by the
 **requests-cache** module adopted.
+
+I didn't reach 100% test coverage as some parts I assume are already covered by
+the external library they relies on as I don't make any modifications beside
+calling their public methods (ex: pokespeare.http module).
