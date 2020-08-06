@@ -19,7 +19,6 @@ Dependencies:
 
 Optionals:
 - sqlite
-- redis
 
 ## Quickstart
 
@@ -114,3 +113,10 @@ several orders of magnitude.
 A solution to tackle the problem of the scarce number of calls available toward
 funtranslations.com beside the cache, could be to store results at each new
 call in a persistent DB avoiding calls each time the cache is flushed.
+
+## Notes
+
+For the caching layer I've opted for simple in-memory dictionary for
+development and sqlite for a persisted solution just to give the idea, it's
+easy anyway to add redis for example as it's natively supported by the
+**requests-cache** module adopted.

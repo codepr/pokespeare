@@ -24,6 +24,7 @@ def get_http_client(
     backend: str = "memory",
     expire_after: int = 3600,
     allowable_methods: Tuple[str] = ("GET",),
+    **kwargs
 ) -> HTTPClient:
     """Trivial factory function, could be extended to a dict-based registry
     with more choices, if a different more performant client is needed, or an HTTP/2
@@ -35,6 +36,7 @@ def get_http_client(
             backend=backend,
             expire_after=expire_after,
             allowable_methods=allowable_methods,
+            **kwargs
         )
     return _http
 
