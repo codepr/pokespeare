@@ -44,6 +44,17 @@ def resource_not_found(err):
     return jsonify(error=str(err)), 404
 
 
+@flask_app.errorhandler(429)
+def too_many_requests(_):
+    return (
+        jsonify(
+            error="Too Many Requests: This user has exceeded an allotted "
+            "request count. Try again later."
+        ),
+        404,
+    )
+
+
 @flask_app.route("/pokemon/<string:pokemon_name>", methods=["GET"])
 def get_pokemon_description(pokemon_name):
     """Main GET handler for the application, exposes /pokemon/<name> and return
@@ -68,19 +79,28 @@ def get_pokemon_description(pokemon_name):
     schema = PokemonSchema()
     sh_schema = ShakespeareTextSchema()
     try:
+        # Call to pokeapi.co/v2
         response = http.get(os.path.join(pokemon_url, pokemon_name))
         pokemon = schema.load(response.json())
+        # Call to funtranslations.com
         if translator_api:
-            shakespereanized = http.post(
+            response = http.post(
                 translator_url,
                 json={"text": pokemon.description},
                 headers={"X-Funtranslations-Api-Secret": translator_api},
             )
         else:
-            shakespereanized = http.post(
+            response = http.post(
                 translator_url, json={"text": pokemon.description},
             )
-        shakespeare_text = sh_schema.load(shakespereanized.json())
+        # Avoid raise_for_status() call to have better control over the
+        # return codes in case of 429 (too many requests, cap reached)
+        # to return a better descriptive error
+        if response.status_code == 429:
+            abort(429)
+        else:
+            response.raise_for_status()
+        shakespeare_text = sh_schema.load(response.json())
     except (HTTPError, MalformedJSONResponseError) as err:
         abort(404, description=err)
     except UnexpectedError:

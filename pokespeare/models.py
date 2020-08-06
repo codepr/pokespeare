@@ -1,4 +1,4 @@
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from .exceptions import MalformedJSONResponseError
 
 from marshmallow import (
@@ -12,11 +12,16 @@ from marshmallow import (
 
 @dataclass
 class Pokemon:
+    """Simple container class for Pokemon descriptions"""
+
     name: str
     description: str
 
 
 class PokemonSchema(Schema):
+    """JSON Schema class for Pokemon dataclass, all ser. deser. logics should
+    be handled here """
+
     class Meta:
         unknown = EXCLUDE
 
@@ -54,10 +59,16 @@ class PokemonSchema(Schema):
 
 @dataclass
 class ShakespeareText:
+    """Simple container class for shakespereanized text"""
+
     translated: str
 
 
 class ShakespeareTextSchema(Schema):
+
+    """JSON Schema class for ShakespeareText dataclass, all ser. deser.
+     logics should be handled here """
+
     class Meta:
         unknown = EXCLUDE
 

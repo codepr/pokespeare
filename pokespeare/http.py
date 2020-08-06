@@ -115,7 +115,6 @@ class RequestsHTTPClient(HTTPClient):
     def post(self, url: str, **kwargs: Dict[str, Any]) -> Any:
         try:
             response = requests.post(url, **kwargs)
-            response.raise_for_status()
         except (
             requests.exceptions.HTTPError,
             requests.exceptions.TooManyRedirects,
