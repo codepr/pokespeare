@@ -59,18 +59,18 @@ support:
 
 Dev and prod.
 
-- `CACHE_NAME`
-- `CACHE_BACKEND`
-- `CACHE_EXPIRATION`
-- `POKEMON_API_URL`
-- `TRANSLATOR_API_URL`
-- `TRANSLATOR_API_KEY`
-- `WSGI_SERVER`
+- `CACHE_NAME` The name of the cache `sqlite` DB or the namespace in `redis`
+- `CACHE_BACKEND` The backend of the cache layer. Can be either `memory`, `sqlite`, or `redis`
+- `CACHE_EXPIRATION` The eviction time of each key in the cache. Default to 3600 seconds
+- `POKEMON_API_URL` The URL of the `pokeapi.co/v2` service
+- `TRANSLATOR_API_URL` The URL of the `funtranslations.com` service
+- `TRANSLATOR_API_KEY` The optional API key for `funtranslations.com`
+- `WSGI_SERVER` The `WSGI` server to adopt, can be either `Flask` (better for dev) or `gunicorn`
 
 Production only
 
-- `HOST`
-- `PORT`
+- `HOST` Address to listen on (only with `WSGI_SERVER=gunicorn`)
+- `PORT` Port to listen on (only with `WSGI_SERVER=gunicorn`)
 
 ## Way of working
 
@@ -96,13 +96,15 @@ code to express my opinions on what could have been a better choice to take.
 
 - **Flask:** battle-tested and the simplest solution for the domain, it's
   lightweight and being the problem essentially a stateless computation, I
-  thought there was no need for fancy features or speedsters performance
-  frameworks like `fastapi` or `async/await` based frameworks. Flask
-  is more than capable of handling the volume of requests.
-  If the traffic volume is expected to grow rapidly in the short-term (unlikely,
-  given the hard-cap of the [shakesperean-translator](https://funtranslations.com/api/shakespeare#translate)
+  thought there was no need for fancy features extensions like `Flask-Restplus`
+  or speedsters performance frameworks like `fastapi` or `async/await` based
+  frameworks. Flask is more than capable of handling the volume of requests. If
+  the traffic volume is expected to grow rapidly in the short-term (unlikely,
+  given the hard-cap of the
+  [shakesperean-translator](https://funtranslations.com/api/shakespeare#translate)
   of 12500 calls/day with the ultra plan) it's trivial to increase nodes and
-  put a load-balancer in front of the application.
+  put a load-balancer in front of the application, spreding it into multiple
+  processes on a cluster.
 
 - **Requests:** Again, the most widespread library for HTTP calls, it does one thing
   and it does it well. Also there's no possibility of make the `pokeappi.co/v2` call
@@ -144,7 +146,7 @@ call in a persistent DB avoiding calls each time the cache is flushed.
 ## Notes
 
 For the caching layer I've opted for simple in-memory dictionary for
-development and sqlite for a persisted solution just to give the idea, it's
+development and `sqlite` for a persisted solution just to give the idea, it's
 easy anyway to add redis for example as it's natively supported by the
 **requests-cache** module adopted.
 
@@ -168,4 +170,5 @@ habit with exceptions system or plain old return codes C/Go like; but I think
 it become very intuitive pretty fast and very powerful and neat as well.
 
 I really like cargo and the toolchain offered, way better than the python one,
-definetly interesting.
+and, like in python, the battery included unit testing module; definetely
+interesting.
