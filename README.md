@@ -151,6 +151,13 @@ development and `sqlite` for a persisted solution just to give the idea, it's
 easy anyway to add redis for example as it's natively supported by the
 **requests-cache** module adopted.
 
+I decided to implement a wrapper around the `requests` library as I think it
+gives more flexibility in terms of testing and extensibility for the future, to
+be honest I've to say I'm still not completely convinced of the usage of
+`abstractclasses` in python for classes other than containers as I think it
+clashes a bit with the duck-typing nature of the language but still I decided
+to create a basic interface to enforce some kind of "type-safety".
+
 I didn't reach 100% test coverage as some parts I assume are already covered by
 the external library they relies on as I don't make any modifications beside
 calling their public methods (ex: pokespeare.http module).
