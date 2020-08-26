@@ -3,7 +3,7 @@ Pokespeare
 
 ![test](https://github.com/codepr/pokespeare/workflows/test/badge.svg)
 
-Simple REST API that, given a Pokemon name, returns its Shakesperean description.
+Simple REST API that, given a Pokemon name, returns its Shakesperean description for TrueLayer.
 
 The application exposes a single endpoint `/pokemon/<name>` which can be queried
 via `GET` method passing the pokemon name and it will return a JSON in the form of
